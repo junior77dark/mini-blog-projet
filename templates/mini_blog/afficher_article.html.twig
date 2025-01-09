@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ asset('output.css') }}">
+    <title>afficher les articles</title>
+    <style>
+        .style_commentaire {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 300px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            border-radius: 8px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body class="bg-gray-600 ml-5 mt-6">
+{% for article in articles %}
+ <div class="flex space-x-5">
+    <div class="fenetre_commentaire flex flex-col rounded-2xl w-[500px] bg-[#ffffff] shadow-xl relative">
+        <figure class="flex justify-center items-center rounded-2xl">
+            <img src="{{ asset('images/freepik__background__88638.png') }}" alt="Card Preview" class="rounded-t-2xl">
+        </figure>
+        <div class="flex flex-col p-8">
+            <div class="text-2xl font-bold text-[#374151] pb-6">{{ article.titre }}</div>
+            <div class="text-lg text-[#374151]">{{ article.description }}</div>
+            <div class="flex justify-end pt-6">
+                <button class="bg-[#7e22ce] text-[#ffffff] w-full font-bold text-base p-3 rounded-lg hover:bg-purple-800 active:scale-95 transition-transform transform commenter">Ajouter un commentaire</button>
+            </div>
+        </div>
+    </div>
+ </div>
+{% endfor %}
+ <script>
+    document.querySelectorAll('.commenter').forEach(button => {
+        button.addEventListener('click', () => {
+            const article_commentaire = button.closest('.fenetre_commentaire');
+            let commenter_texte = article_commentaire.querySelector('.style_commentaire');
+            if (commenter_texte) {
+                commenter_texte.remove();
+            } else {
+                commenter_texte = document.createElement('div');
+                commenter_texte.className = 'style_commentaire';
+                commenter_texte.innerHTML = `
+                    <form method="POST">
+                    <h2 class="text-2xl font-bold text-[#374151] pb-6">Ajouter un commentaire</h2>
+                    <textarea class="w-full p-4 border border-gray-300 rounded-lg" rows="5" placeholder="Écrivez votre commentaire" name="commentaire" required ></textarea>
+                    <div class="flex justify-end pt-4">
+                        <button class="bg-[#7e22ce] text-[#ffffff] w-full font-bold text-base p-3 rounded-lg hover:bg-purple-800 active:scale-95 transition-transform transform" type="submit">Soumettre</button>
+                    </div>
+                    </form>
+                `;
+                article_commentaire.appendChild(commenter_texte);
+            }
+        });
+    });
+ </script>
+
+</body>
+</html>

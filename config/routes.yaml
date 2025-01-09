@@ -3,3 +3,9 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+afficher:
+    path: /
+    controller: App\Controller\BlogController::ajoutBlog
+entrer:
+    path: /afficher_article.html
+    controller: App\Controller\BlogController::afficherBlog
